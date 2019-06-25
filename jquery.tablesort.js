@@ -1,7 +1,7 @@
 /*
 	A simple, lightweight jQuery plugin for creating sortable tables.
 	https://github.com/kylefox/jquery-tablesort
-	Version 0.0.11
+	Version 0.0.11.1 edited by alekssamos
 */
 
 (function($) {
@@ -40,7 +40,7 @@
 
 			//click on a different column
 			if (this.index !== th.index()) {
-				this.direction = 'asc';
+				this.direction = direction ? direction : 'asc';
 				this.index = th.index();
 			}
 			else if (direction !== 'asc' && direction !== 'desc')

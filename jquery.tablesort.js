@@ -1,6 +1,6 @@
 /*
 	A simple, lightweight jQuery plugin for creating sortable tables.
-	https://github.com/alekssamos/jquery-tablesort/tree/patch-1
+	https://github.com/alekssamos/jquery-tablesort
 	Version 0.0.11.2 edited by alekssamos
 */
 

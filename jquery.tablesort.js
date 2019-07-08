@@ -79,23 +79,6 @@
 				});
 
 				th.addClass(self.settings[self.direction]);
-				self.$table.attr('role', 'grid')
-				self.$thead.find('tr').attr('role', 'row')
-					.find('th').attr('role', 'columnheader')
-					.attr('aria-sort', 'none')
-					.attr('tabindex', '0');
-				if(!self.$thead.hasClass('eventonkeydownset')) {
-					self.$thead.on('keydown', 'th', function(event){
-						if (event.keyCode==13 || event.keyCode==32) { $(this).trigger('click'); }
-						if (event.keyCode==37 || event.keyCode==38) {
-							var p = $(this).prev()[0] ? $(this).prev() : false;
-							if(!p) { return; } p.trigger('click')[0].focus(); }
-						if (event.keyCode==39 || event.keyCode==40) {
-							var n = $(this).next()[0] ? $(this).next() : false;
-							if(!n) { return; } n.trigger('click')[0].focus(); }
-					});
-					self.$thead.addClass('eventonkeydownset');
-				}
 				th.attr('aria-sort', self.direction + 'ending');
 
 				self.log('Sort finished in ' + ((new Date()).getTime() - start.getTime()) + 'ms');
@@ -141,6 +124,24 @@
 		var table, sortable, previous;
 		return this.each(function() {
 			table = $(this);
+			table.attr('role', 'grid');
+			table.find('thead tr').attr('role', 'row')
+				.find('th')
+				.attr('role', 'columnheader')
+				.attr('aria-sort', 'none')
+				.attr('tabindex', '0');
+			/* if(!table.find('thead').hasClass('eventonkeydownset')) { */
+				table.find('thead').on('keydown', 'th', function(event){
+				if (event.keyCode==13 || event.keyCode==32) { $(this).trigger('click'); }
+					if (event.keyCode==37 || event.keyCode==38) {
+						var p = $(this).prev()[0] ? $(this).prev() : false;
+						if(!p) { return; } p.trigger('click')[0].focus(); }
+					if (event.keyCode==39 || event.keyCode==40) {
+						var n = $(this).next()[0] ? $(this).next() : false;
+						if(!n) { return; } n.trigger('click')[0].focus(); }
+				});
+				/* table.find('thead').addClass('eventonkeydownset'); */
+			/* } */
 			previous = table.data('tablesort');
 			if(previous) {
 				previous.destroy();

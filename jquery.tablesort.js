@@ -1,7 +1,7 @@
 /*
 	A simple, lightweight jQuery plugin for creating sortable tables.
-	https://github.com/kylefox/jquery-tablesort
-	Version 0.0.11.1 edited by alekssamos
+	https://github.com/alekssamos/jquery-tablesort/tree/patch-1
+	Version 0.0.11.2 edited by alekssamos
 */
 
 (function($) {
@@ -50,6 +50,7 @@
 
 			direction = this.direction == 'asc' ? 1 : -1;
 
+			self.$table.attr('aria-busy', 'true');
 			self.$table.trigger('tablesort:start', [self]);
 			self.log("Sorting by " + this.index + ' ' + this.direction);
 
@@ -78,8 +79,27 @@
 				});
 
 				th.addClass(self.settings[self.direction]);
+				self.$table.attr('role', 'grid')
+				self.$thead.find('tr').attr('role', 'row')
+					.find('th').attr('role', 'columnheader')
+					.attr('aria-sort', 'none')
+					.attr('tabindex', '0');
+				if(!self.$thead.hasClass('eventonkeydownset')) {
+					self.$thead.on('keydown', 'th', function(event){
+						if (event.keyCode==13 || event.keyCode==32) { $(this).trigger('click'); }
+						if (event.keyCode==37 || event.keyCode==38) {
+							var p = $(this).prev()[0] ? $(this).prev() : false;
+							if(!p) { return; } p.trigger('click')[0].focus(); }
+						if (event.keyCode==39 || event.keyCode==40) {
+							var n = $(this).next()[0] ? $(this).next() : false;
+							if(!n) { return; } n.trigger('click')[0].focus(); }
+					});
+					self.$thead.addClass('eventonkeydownset');
+				}
+				th.attr('aria-sort', self.direction + 'ending');
 
 				self.log('Sort finished in ' + ((new Date()).getTime() - start.getTime()) + 'ms');
+				self.$table.attr('aria-busy', 'false');
 				self.$table.trigger('tablesort:complete', [self]);
 				//Try to force a browser redraw
 				self.$table.css("display");

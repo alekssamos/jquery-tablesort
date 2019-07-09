@@ -79,6 +79,7 @@
 				});
 
 				th.addClass(self.settings[self.direction]);
+				self.$thead.find('th').attr('aria-sort', 'none');
 				th.attr('aria-sort', self.direction + 'ending');
 
 				self.log('Sort finished in ' + ((new Date()).getTime() - start.getTime()) + 'ms');

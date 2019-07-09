@@ -127,7 +127,7 @@
 			table = $(this);
 			table.attr('role', 'grid');
 			table.find('thead tr').attr('role', 'row')
-				.find('th')
+				.find('th:not(.no-sort)')
 				.attr('role', 'columnheader')
 				.attr('aria-sort', 'none')
 				.attr('tabindex', '0');
